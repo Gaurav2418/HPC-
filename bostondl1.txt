@@ -1,0 +1,57 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+--------------------------------------------
+df = pd.read_csv('C:/Users/shreeyash/Downloads/Boston.csv')
+df.head(10)
+-----------------------------------------------------------
+df.shape
+--------------------
+df
+---------------
+df.head
+-------------------
+df.isnull().sum()
+---------------------
+df.info()
+--------------
+df.describe()
+----------------
+df.corr()['MEDV'].sort_values()
+-----------------------------------
+X = df.loc[:,['LSTAT','PTRATIO','RM']]
+Y = df.loc[:,"MEDV"]
+X.shape,Y.shape
+--------------------------------------------------
+boston = pd.read_csv('C:/Users/shreeyash/Downloads/Boston.csv')
+-------------------------------------------------------------------
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy import stats
+
+fig, axs = plt.subplots(ncols=7, nrows=2, figsize=(20, 10))
+index = 0
+axs = axs.flatten()
+for k,v in df.items():
+    sns.boxplot(y=k, data=df, ax=axs[index])
+    index += 1
+plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
+-----------------------------------------------------------------
+sns.boxplot(df.CRIM)
+----------------------------------------------------------------
+#checking Correlation of the data 
+correlation = df.corr()
+correlation.loc['CRIM']
+----------------------------------------------------------------
+# Checking the scatter plot with the most correlated features
+plt.figure(figsize = (20,5))
+features = ['LSTAT','RM','PTRATIO']
+for i, col in enumerate(features):
+    plt.subplot(1, len(features) , i+1)
+    x = df[col]
+    y = df.CRIM
+    plt.scatter(x, y, marker='o')
+    plt.title("Variation in House prices")
+    plt.xlabel(col)
+    plt.ylabel('"House prices in $1000"')
+----------------------------------------------------------------------
