@@ -1,0 +1,75 @@
+#include <iostream>
+#include <vector>
+#include <omp.h>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+void find_min(const vector<int>& arr)
+{
+    int min_val = arr[0];
+#pragma omp parallel for reduction(min:min_val)
+    for (int i = 0; i < arr.size(); ++i)
+    {
+        if (arr[i] < min_val)
+        {
+            min_val = arr[i];
+        }
+    }
+    cout << "Minimum value: " << min_val << endl;
+}
+
+void find_max(const vector<int>& arr)
+{
+    int max_val = arr[0];
+#pragma omp parallel for reduction(max:max_val)
+    for (int i = 0; i < arr.size(); ++i)
+    {
+        if (arr[i] > max_val)
+        {
+            max_val = arr[i];
+        }
+    }
+    cout << "Maximum value: " << max_val << endl;
+}
+
+void find_avg(const vector<int>& arr)
+{
+    int sum = 0;
+#pragma omp parallel for reduction(+:sum)
+    for (int i = 0; i < arr.size(); ++i)
+    {
+        sum += arr[i];
+    }
+    float avg = static_cast<float>(sum) / arr.size();
+    cout << "Average value: " << avg << endl;
+}
+
+int main()
+{
+    int n;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
+
+    vector<int> arr(n);
+
+    srand(time(0));
+    for (int i = 0; i < n; ++i)
+    {
+        arr[i] = rand() % 100;
+    }
+
+    cout << "Array elements: ";
+    for (int num : arr)
+    {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    find_min(arr);
+    find_max(arr);
+    find_avg(arr);
+
+    return 0;
+}
